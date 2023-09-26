@@ -6,8 +6,6 @@ const input = require("fs")
 
 const isGroupWord = (str) => {
   let isGroup = true;
-  if (str.length === 1) return isGroup;
-
   const eachWord = {};
 
   for (let i = 0; i < str.length; i++) {
@@ -26,6 +24,9 @@ const solution = (arr, result = 0) => {
   const wordCount = arr[0];
 
   for (let i = 1; i <= wordCount; i++) {
+    if(arr[i].length===1) {
+        result+=1; continue; 
+    }
     if (isGroupWord(arr[i])) result += 1;
   }
 
