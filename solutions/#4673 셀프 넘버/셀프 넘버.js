@@ -8,7 +8,6 @@ for (let i = 1; i <= LIMIT; i++) {
   construct[addNum] = true;
 }
 
-construct.map((isConstruct, index) => {
-  if (index === 0) return;
-  if (!isConstruct) console.log(index);
-});
+for (let i = 1; i <= LIMIT; i++) {
+  if (!construct[i]) console.log(i);
+}
