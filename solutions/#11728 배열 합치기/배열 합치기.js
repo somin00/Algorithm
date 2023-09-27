@@ -4,12 +4,11 @@ const input = require("fs")
   .trim()
   .split("\n");
 
-let result = "";
-
 const str = input[1] + " " + input[2];
 
-const strArr = str.split(" ").sort((a, b) => a - b);
+const strArr = str
+  .split(" ")
+  .sort((a, b) => a - b)
+  .join(" ");
 
-strArr.map((item) => (result += item + " "));
-
-console.log(result);
+console.log(strArr);
