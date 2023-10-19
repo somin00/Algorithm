@@ -7,9 +7,16 @@ const [N, K] = require("fs")
 const n = Number(N);
 const k = Number(K);
 
+const dp = new Array(N + 1).fill(0);
+
 function factorial(x) {
-  if (x === 0 || x === 1) return 1;
-  return x * factorial(x - 1);
+  if (dp[x] > 0) return dp[x];
+  if (x === 0 || x === 1) {
+    dp[x] = 1;
+    return dp[x];
+  }
+  dp[x] = x * factorial(x - 1);
+  return dp[x];
 }
 
 console.log(factorial(n) / (factorial(n - k) * factorial(k)));
