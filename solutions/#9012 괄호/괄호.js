@@ -5,7 +5,7 @@ const input = require("fs")
   .split("\n");
 
 const N = Number(input.shift());
-const result = [];
+let result = "";
 
 for (let i = 0; i < N; i++) {
   const arr = input[i].split("");
@@ -13,20 +13,15 @@ for (let i = 0; i < N; i++) {
 }
 
 function checkIsVPS(arr) {
-  const stack = [];
+  let stack = 0;
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === ")") {
-      const last = stack.at(-1);
-      if (last === "(") stack.pop();
-      else {
-        stack.push(arr[i]);
-      }
-    } else {
-      stack.push(arr[i]);
+    if (arr[i] === "(") stack += 1;
+    else {
+      stack -= 1;
+      if (stack < 0) break;
     }
   }
-  if (stack.length === 0) result.push("YES");
-  else result.push("NO");
+  result += stack === 0 ? "YES\n" : "NO\n";
 }
 
-console.log(result.join("\n"));
+console.log(result);
