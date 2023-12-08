@@ -3,7 +3,7 @@ function solution(n, t, m, p) {
 
     let numbers=""
     for(let i=0; i<t*m ;i++){
-        const convertNum=i.toString(n).toUpperCase(); 
+        const convertNum=i.toString(n); 
         numbers+=convertNum
     }   
 
@@ -11,5 +11,5 @@ function solution(n, t, m, p) {
         answer+=numbers[i-1]
 
     }
-    return answer;
+    return answer.toUpperCase();
 }
