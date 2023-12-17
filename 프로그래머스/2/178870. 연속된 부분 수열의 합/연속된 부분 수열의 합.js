@@ -22,6 +22,6 @@ function solution(sequence, k) {
         return [x, y-1]; 
     }
     
-    const [x,y]= answer.filter(item=>item.dist===minDist).map(({val})=>val).sort((a,b)=>a[0]-b[0])[0];
-    return [x, y-1]; 
+    const [x,y]= answer.filter(item=>item.dist===minDist).map(({val})=>val)[0]; 
+    return [x, y-1]
 }
