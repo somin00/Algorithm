@@ -1,45 +1,30 @@
 function solution(orders, course) {
-    const answer=[]; 
-    orders=orders.map(item=>item.split("").sort().join(""));
-    const combArr=Array.from({length:course.length}, ()=>[])
-    const combObj=Array.from({length:course.length}, ()=>({})) 
-  
-    for(let j=0; j<course.length; j++){
-        for(let i=0; i<orders.length; i++){
-            const arr=orders[i].split(""); 
-            const combinations=getCombinations( arr, course[j]); 
-            combArr[j].push(...combinations)
-        }
-    }
-    for(let i=0; i<combArr.length; i++){
-        for(let j=0; j<combArr[i].length; j++){
-            const cnt=combArr[i][j]; 
-            if(combObj[i][cnt]) combObj[i][cnt]=combObj[i][cnt]+1; 
-            else combObj[i][cnt]=1; 
-        }
+  const ordered = {};
+  const candidates = {};
+  const maxNum = Array(10 + 1).fill(0);
+  const createSet = (arr, start, len, foods) => {
+    if (len === 0) {
+      ordered[foods] = (ordered[foods] || 0) + 1;
+      if (ordered[foods] > 1) candidates[foods] = ordered[foods];
+      maxNum[foods.length] = Math.max(maxNum[foods.length], ordered[foods]);
+      return;
     }
 
-    for(let i=0; i<combObj.length; i++){
-       const values= Object.values(combObj[i]); 
-        const max=Math.max(...values); 
-        if(max===1) continue; 
-        for(const key of Object.keys(combObj[i])){
-            if(combObj[i][key]===max) answer.push(key)
-        }
+    for (let i = start; i < arr.length; i++) {
+      createSet(arr, i + 1, len - 1, foods + arr[i]);
     }
-    return answer.sort();
-}
+  };
 
+  orders.forEach((od) => {
+    const sorted = od.split('').sort();
+    course.forEach((len) => {
+      createSet(sorted, 0, len, '');
+    });
+  });
 
-function getCombinations(arr, selectedNum){
-    const results=[]
-    if(selectedNum===1) return arr.map(item=>[item]); 
-    arr.forEach((fixed, idx, origin)=>{
-        const rest=origin.slice(idx+1); 
-        const combination=getCombinations( rest, selectedNum-1); 
-        const attached=combination.map(item=>[fixed, ...item].join("")); 
-        results.push(...attached); 
-    })
-    
-    return results; 
+  const launched = Object.keys(candidates).filter(
+    (food) => maxNum[food.length] === candidates[food]
+  );
+
+  return launched.sort();
 }
