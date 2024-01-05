@@ -6,55 +6,37 @@ const input = require("fs")
 
 const n = +input.shift();
 const graph = input.map((item) => item.split(" ").map((item) => Number(item)));
-const numbers = Array.from({ length: n - 1 }, (_, idx) => idx + 2);
+const visit = Array.from({ length: n }, () => 0);
+let answer = Number.MAX_SAFE_INTEGER;
 
-function getComb(arr, selectedNum) {
-  const results = [];
-  if (selectedNum === 1) return arr.map((item) => [1, item]);
-  arr.forEach((fixed, idx, origin) => {
-    const rest = origin.slice(idx + 1);
-    const comb = getComb(rest, selectedNum - 1);
-    const attached = comb.map((item) => [fixed, ...item]);
-    results.push(...attached);
-  });
-  return results;
-}
+function dfs(l, k) {
+  if (l === n / 2) {
+    const startTeam = [];
+    const linkTeam = [];
+    let startSum = 0;
+    let linkSum = 0;
+    for (let i = 0; i < n; i++) {
+      if (visit[i]) startTeam.push(i);
+      else linkTeam.push(i);
+    }
 
-// function getSum(arr) {
-//   console.log(arr);
-//   let sum = 0;
-//   for (let i = 0; i < arr.length; i++) {
-//     for (let j = 0; j < arr.length; j++) {
-//       sum += graph[arr[i] - 1][arr[j] - 1];
-//     }
-//   }
-//   return sum;
-// }
-
-const comb = getComb(numbers, n / 2 - 1);
-let answer = Infinity;
-for (let i = 0; i < comb.length; i++) {
-  const arr = comb[i];
-  let sum1 = 0;
-  let sum2 = 0;
-
-  for (let j = 0; j < n; j++) {
-    const idx = arr.indexOf(j + 1);
-    if (idx > -1) {
-      for (let k = 0; k < arr.length; k++) {
-        sum1 += graph[arr[idx] - 1][arr[k] - 1];
-      }
-    } else {
-      for (let k = 0; k < n; k++) {
-        if (!arr.includes(k + 1)) {
-          sum2 += graph[j][k];
-        }
+    for (let i = 0; i < n / 2; i++) {
+      for (let j = i + 1; j < n / 2; j++) {
+        startSum += graph[startTeam[i]][startTeam[j]] + graph[startTeam[j]][startTeam[i]];
+        linkSum += graph[linkTeam[i]][linkTeam[j]] + graph[linkTeam[j]][linkTeam[i]];
       }
     }
+    answer = Math.min(answer, Math.abs(startSum - linkSum));
+    return;
   }
-  const diff = Math.abs(sum2 - sum1);
 
-  answer = Math.min(answer, diff);
+  for (let i = k; i < n; i++) {
+    visit[i] = 1;
+    dfs(l + 1, i + 1);
+    visit[i] = 0;
+  }
 }
+
+dfs(0, 0);
 
 console.log(answer);
