@@ -17,21 +17,13 @@ function solution(arr) {
 
   if (n === 1) return Math.max(...numbers.flat());
 
-  const dp = Array.from({ length: 2 }, () => Array.from({ length: n }, () => 0));
-  dp[0][0] = numbers[0][0];
-  dp[1][0] = numbers[1][0];
-  dp[0][1] = dp[1][0] + numbers[0][1];
-  dp[1][1] = dp[0][0] + numbers[1][1];
+  const dp = Array.from({ length: 2 }, () => Array.from({ length: n + 1 }, () => 0));
+  dp[0][1] = numbers[0][0];
+  dp[1][1] = numbers[1][0];
 
-  for (let i = 2; i < n; i++) {
-    for (let j = 0; j < 2; j++) {
-      if (j === 0) {
-        dp[j][i] = Math.max(dp[j + 1][i - 2], dp[j + 1][i - 1]) + numbers[j][i];
-      }
-      if (j === 1) {
-        dp[j][i] = Math.max(dp[j - 1][i - 2], dp[j - 1][i - 1]) + numbers[j][i];
-      }
-    }
+  for (let i = 2; i <= n; i++) {
+    dp[0][i] = Math.max(dp[1][i - 1], dp[1][i - 2]) + numbers[0][i - 1];
+    dp[1][i] = Math.max(dp[0][i - 1], dp[0][i - 2]) + numbers[1][i - 1];
   }
   return Math.max(...dp.flat());
 }
