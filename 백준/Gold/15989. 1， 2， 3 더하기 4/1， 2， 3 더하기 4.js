@@ -8,7 +8,7 @@ const input = require("fs")
 let T = +input[0];
 let i = 1;
 const numbers = [1, 2, 3];
-
+let answer = "";
 while (T-- > 0) {
   const n = +input[i++];
   const dp = Array.from({ length: n + 1 }, () => 1);
@@ -19,5 +19,7 @@ while (T-- > 0) {
       }
     }
   }
-  console.log(dp[n]);
+  answer += dp[n] + "\n";
 }
+
+console.log(answer);
