@@ -5,15 +5,17 @@ const input = require("fs")
   .split("\n");
 
 const [n, k] = input[0].split(" ").map(Number);
-const dp = new Array(n + k);
-dp[0] = [1];
-dp[1] = [1, 1];
-for (let i = 2; i < n + k; i++) {
-  dp[i] = [];
+const dp = [];
+
+for (let i = 1; i <= k; i++) {
+  dp[i] = new Array(n + 1).fill(i === 1 ? 1 : 0);
   dp[i][0] = 1;
-  dp[i][i] = 1;
-  for (let j = 1; j < i; j++) {
-    dp[i][j] = (dp[i - 1][j - 1] + dp[i - 1][j]) % 1000000000;
+}
+
+for (let i = 2; i <= k; i++) {
+  for (let j = 1; j <= n; j++) {
+    dp[i][j] = (dp[i][j - 1] + dp[i - 1][j]) % 1000000000;
   }
 }
-console.log(dp[n + k - 1][n]);
+
+console.log(dp[k][n]);
