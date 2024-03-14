@@ -1,37 +1,24 @@
-const [A, B] = require("fs")
+let [A, B] = require("fs")
   .readFileSync(process.platform === "linux" ? "/dev/stdin" : "example.txt")
   .toString()
   .trim()
   .split(" ")
   .map(Number);
 
-const visited = new Map();
+let count = 1;
+let isSame = false;
 
-function bfs(number) {
-  const queue = [[number, 0]];
-  visited.set(number, 0);
-
-  while (queue.length) {
-    const [num, count] = queue.shift();
-    const calculation = [num * 2, String(num) + "1"];
-    for (let i = 0; i < 2; i++) {
-      const newNum = calculation[i];
-      const newCount = count + 1;
-      if (!visited.get(newNum) || visited.get(newNum) < newCount) {
-        if (newNum <= B) {
-          queue.push([newNum, newCount]);
-          visited.set(Number(newNum), newCount);
-        }
-      }
-    }
+while (A <= B) {
+  if (A === B) {
+    isSame = true;
+    break;
   }
+
+  if (B % 2 === 0) B = parseInt(B / 2);
+  else if (B % 10 === 1) B = parseInt(B / 10);
+  else break;
+  count++;
 }
 
-bfs(A);
-
-const answer = visited.get(B);
-if (answer) {
-  console.log(answer + 1);
-} else {
-  console.log(-1);
-}
+if (isSame) console.log(count);
+else console.log(-1);
