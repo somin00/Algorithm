@@ -1,6 +1,6 @@
 function solution(participant, completion) {
-    const sortedParticipant=participant.sort(); 
-    const sortedCompletion=completion.sort(); 
+    participant.sort(); 
+    completion.sort(); 
     
-    return sortedParticipant.find((item, idx)=>item!==sortedCompletion[idx])
+    return participant.find((item, idx)=>item!==completion[idx])
 }
