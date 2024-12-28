@@ -12,7 +12,7 @@ function solution(genres, plays) {
 
   const sortedgenre = Object.keys(map).sort((a, b) => map[b].sum - map[a].sum);
 
-  let totalCount = sortedgenre.length * 2;
+  // let totalCount = sortedgenre.length * 2;
 
   for (let i = 0; i < sortedgenre.length; i++) {
     map[sortedgenre[i]].arr.sort((a, b) => {
@@ -22,12 +22,13 @@ function solution(genres, plays) {
 
     if (map[sortedgenre[i]].arr.length === 1) {
       answer.push(map[sortedgenre[i]].arr[0][0]);
-      totalCount -= 1;
     } else {
       for (let j = 0; j < 2; j++) {
         answer.push(map[sortedgenre[i]].arr[j][0]);
       }
     }
   }
-  return answer.slice(0, totalCount);
+    
+    return answer; 
+  // return answer.sl/ice(0, totalCount);
 }
