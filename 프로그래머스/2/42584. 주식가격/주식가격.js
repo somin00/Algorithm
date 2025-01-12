@@ -20,8 +20,11 @@ function solution(prices) {
 
     for(let i=0; i<stack.length; i++){
         const [number, count]=stack[i]; 
-        answer[count]=prices.length-1-count; 
+        if(!answer[count]){
+            answer[count]=prices.length-1-count; 
+        }
+
     }
-    
+
     return answer;
 }
